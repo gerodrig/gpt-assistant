@@ -1,0 +1,7 @@
+node_modules
+
+# turbo configuration
+.turbo
+
+# vscode configuration
+.vscode
