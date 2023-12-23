@@ -30,8 +30,8 @@ export const menuRoutes = [
 {
     to: '/pros-cons-stream',
     icon: 'fa-solid fa-water',
-    title: 'As a Stream',
-    description: 'With message stream',
+    title: 'Pros & Cons Stream',
+    description: 'Response with message stream',
     component: <ProsConsStreamPage />,
 },
 {

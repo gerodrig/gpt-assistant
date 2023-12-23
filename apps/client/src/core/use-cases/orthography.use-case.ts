@@ -29,8 +29,6 @@ export const orthographyUseCase = async (prompt: string) => {
     } catch (error) {
         return {
             ok: false,
-            userScore: 0,
-            errors: [],
             message: 'Grammar correction failed'
         }
     }
