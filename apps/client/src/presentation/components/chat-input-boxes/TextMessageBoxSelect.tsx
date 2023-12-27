@@ -9,7 +9,7 @@ type Props = {
 
 type Option = {
   id: string;
-  text: string;
+  name: string;
 };
 
 export const TextMessageBoxSelect = ({
@@ -25,6 +25,7 @@ export const TextMessageBoxSelect = ({
     event.preventDefault();
 
     if (message.trim().length === 0) return;
+    if(selectedOption.trim().length === 0) return;
 
     onSendMessage(message, selectedOption);
     setMessage('');
@@ -58,8 +59,8 @@ export const TextMessageBoxSelect = ({
           >
             <option value="" disabled>Select</option>
             {
-              options.map(({id,text}) => (
-                <option key={id} value={id}>{text}</option>
+              options.map(({id,name}) => (
+                <option key={id} value={id}>{name}</option>
               ))
             }
           </select>
