@@ -1,10 +1,10 @@
-import { Body, Controller, HttpStatus, Post, Res } from '@nestjs/common';
-import { Response } from 'express';
+import { Body, Controller, Get, HttpStatus, Param, Post, Res } from '@nestjs/common';
+import type { Response } from 'express';
 import type { ChatCompletionChunk } from 'openai/resources';
 import type { Stream } from 'openai/streaming';
 
 import { GptService } from './gpt.service';
-import { OrthographyDto, ProsConsEvaluatorDto } from './dtos';
+import { OrthographyDto, ProsConsEvaluatorDto, TextToSpeechDto } from './dtos';
 import { TranslateDto } from './dtos/translate.dto';
 
 @Controller('gpt')
@@ -62,5 +62,33 @@ export class GptController {
       }
     }
       res.end();
+  }
+
+  @Get('text-to-speech/all')
+  async textToSpeechFiles(
+  ) {
+    return await this.gptService.textToSpeechGetAllFiles();
+  }
+
+  @Get('text-to-speech/:fileId')
+  async textToSpeechGetter(
+    @Param('fileId') fileId: string,
+    @Res() res: Response,
+  ) {
+    const fileStream = await this.gptService.textToSpeechGetter(fileId);
+    res.setHeader('Content-Type', 'audio/mp3');
+    fileStream.pipe(res);
+  }
+
+  @Post('text-to-speech')
+  async textToSpeech(
+    @Body() textToSpeechDto: TextToSpeechDto,
+    @Res() res: Response,
+  ) {
+    const filePath = await this.gptService.textToSpeech(textToSpeechDto);
+
+    res.setHeader('Content-Type', 'audio/mp3');
+    res.status(HttpStatus.OK);
+    res.redirect(filePath);
   }
 }
