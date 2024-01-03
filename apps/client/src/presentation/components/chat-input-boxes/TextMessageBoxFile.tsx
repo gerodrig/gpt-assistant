@@ -1,7 +1,7 @@
 import { FormEvent, useRef, useState } from 'react';
 
 type Props = {
-  onSendMessage: (message: string) => void;
+  onSendMessage: (message: string, file: File) => void;
   placeholder?: string;
   disableCorrections?: boolean;
   accept?: string;
@@ -21,16 +21,18 @@ export const TextMessageBoxFile = ({
   const handleSendMessage = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (message.trim().length === 0) return;
+    // if (message.trim().length === 0) return;
+    if (!selectedFile) return;
 
-    onSendMessage(message);
+    onSendMessage(message, selectedFile);
     setMessage('');
+    setSelectedFile(null);
   };
 
   return (
     <form
       onSubmit={handleSendMessage}
-      className="flex flex-row items-center h-16 rounded-xl bg-white w-full px-4"
+      className="flex flex-row items-center w-full h-16 px-4 bg-white rounded-xl"
     >
       <div className="mr-3">
         <button
@@ -38,7 +40,7 @@ export const TextMessageBoxFile = ({
           className="flex items-center justify-center text-gray-400 hover:text-gray-600"
           onClick={() => inputFileRef.current?.click()}
         >
-          <i className="fa-solid fa-paperclip text-xl"></i>
+          <i className="text-xl fa-solid fa-paperclip"></i>
         </button>
         <input
           ref={inputFileRef}
@@ -54,7 +56,7 @@ export const TextMessageBoxFile = ({
             type="text"
             autoFocus
             name="message"
-            className="flex w-full border rounded-xl text-gray-800 focus:outline-none focus:border-indigo-300 pl-4 h-10"
+            className="flex w-full h-10 pl-4 text-gray-800 border rounded-xl focus:outline-none focus:border-indigo-300"
             placeholder={placeholder}
             autoComplete={disableCorrections ? 'on' : 'off'}
             autoCorrect={disableCorrections ? 'on' : 'off'}

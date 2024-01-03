@@ -1,11 +1,16 @@
-import { Body, Controller, Get, HttpStatus, Param, Post, Res } from '@nestjs/common';
+import { Body, Controller, FileTypeValidator, Get, HttpStatus, MaxFileSizeValidator, Param, ParseFilePipe, Post, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+
 import type { Response } from 'express';
 import type { ChatCompletionChunk } from 'openai/resources';
 import type { Stream } from 'openai/streaming';
 
 import { GptService } from './gpt.service';
-import { OrthographyDto, ProsConsEvaluatorDto, TextToSpeechDto } from './dtos';
+import { OrthographyDto, ProsConsEvaluatorDto, SpeechToTextDto, TextToSpeechDto } from './dtos';
 import { TranslateDto } from './dtos/translate.dto';
+import { CustomFileInterceptor } from '../interceptors/';
+import { CustomAudioUpload } from '../decorators/';
 
 @Controller('gpt')
 export class GptController {
@@ -90,5 +95,15 @@ export class GptController {
     res.setHeader('Content-Type', 'audio/mp3');
     res.status(HttpStatus.OK);
     res.redirect(filePath);
+  }
+
+  @Post('speech-to-text')
+  @UseInterceptors(CustomFileInterceptor)
+  async speechToText(
+    @CustomAudioUpload() file: Express.Multer.File,
+    @Body() speechToTextDto: SpeechToTextDto,
+  ) {
+    // console.log({file})
+   return await this.gptService.speechToText(file, speechToTextDto);
   }
 }

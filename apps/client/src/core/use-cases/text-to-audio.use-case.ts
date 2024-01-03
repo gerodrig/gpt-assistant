@@ -12,7 +12,6 @@ export const textToAudioUseCase = async (text: string, voice: string) => {
         });
 
         if (!response.ok) {
-            console.log(response);
             throw new Error('Couldn\'t generate audio');
         }
 
@@ -26,6 +25,7 @@ export const textToAudioUseCase = async (text: string, voice: string) => {
         }
         
     } catch (error) {
+        console.log(error);
         return {
             ok: false,
             message: 'Audio generation failed'

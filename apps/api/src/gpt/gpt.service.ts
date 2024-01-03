@@ -10,6 +10,8 @@ textToSpeechUseCase,
 } from './use-cases';
 import { OrthographyDto, ProsConsEvaluatorDto, TextToSpeechDto, TranslateDto } from './dtos';
 import { S3Adapter } from '../adapters/s3.adapter';
+import { speechToTextUseCase } from './use-cases/speech-to-text.use-case';
+import { SpeechToTextDto } from './dtos/speech-to-text.dto';
 
 @Injectable()
 export class GptService {
@@ -51,5 +53,9 @@ export class GptService {
 
   async textToSpeechGetAllFiles(): Promise<string[]>{
     return await this.s3Adapter.getAllMP3();
+  }
+
+  async speechToText(audioFile: Express.Multer.File, {prompt}: SpeechToTextDto) {
+    return await speechToTextUseCase(this.openai, { audioFile, prompt });
   }
 }
