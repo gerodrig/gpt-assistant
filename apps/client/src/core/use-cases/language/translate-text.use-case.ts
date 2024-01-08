@@ -1,4 +1,4 @@
-import type { TranslateResponse } from '../../interfaces';
+import type { TranslateResponse } from '../../../interfaces';
 
 export async function* translateTextUseCase(prompt: string, language: string, abortSignal?: AbortSignal) {
 

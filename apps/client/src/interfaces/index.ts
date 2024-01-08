@@ -1,4 +1,5 @@
 
+export * from './assistant.response';
 export * from './audio-to-text.response';
 export * from './message.interface';
 export * from './orthography.response';

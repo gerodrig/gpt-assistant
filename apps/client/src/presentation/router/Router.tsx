@@ -73,7 +73,7 @@ export const menuRoutes = [
     to: '/assistant',
     icon: 'fa-solid fa-user',
     title: 'Assistant',
-    description: 'Assistant information',
+    description: 'Service Desk Closing notes',
     component: <AssistantPage />,
 },
 ];

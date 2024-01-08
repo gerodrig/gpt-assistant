@@ -1,4 +1,4 @@
-import type { AudioToTextResponse } from '../../interfaces/audio-to-text.response';
+import type { AudioToTextResponse } from '../../../interfaces/audio-to-text.response';
 
 export const audioToTextUseCase = async (audioFile: File, prompt?: string) => {
   try {
